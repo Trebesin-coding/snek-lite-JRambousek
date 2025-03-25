@@ -16,7 +16,9 @@ green_coin = spritesheet.get_sprite(76, 0, s_size, s_size).convert_alpha()
 gold_coin = spritesheet.get_sprite(114, 0, s_size, s_size).convert_alpha()
 
 time = 0
-classic_font = pygame.font.Font("snek-lite-JRambousek/FONT/PixelifySans-Regular.ttf", 40)
+classic_font = pygame.font.Font(
+    "snek-lite-JRambousek/FONT/PixelifySans-Regular.ttf", 40
+)
 win_font = pygame.font.Font("snek-lite-JRambousek/FONT/PixelifySans-Regular.ttf", 200)
 score = classic_font.render(f"SCORE: {score_count}", True, (0, 0, 0))
 timeos = classic_font.render(f"TIME: {time}", True, (0, 0, 0))
@@ -30,7 +32,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-            
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         running = False
@@ -38,11 +40,11 @@ while running:
         snake_y -= snake_speed
     if keys[pygame.K_s]:
         snake_y += snake_speed
-    if keys[pygame.K_a]:        
+    if keys[pygame.K_a]:
         snake_x -= snake_speed
-    if keys[pygame.K_d]:    
+    if keys[pygame.K_d]:
         snake_x += snake_speed
-        
+
     snake_rect = snake.get_rect(center=(snake_x, snake_y))
     red_coin_rect = red_coin.get_rect(center=(red_coin_x, red_coin_y))
     green_coin_rect = green_coin.get_rect(center=(green_coin_x, green_coin_y))
@@ -53,7 +55,7 @@ while running:
         red_coin_y = random.randint(0, 980)
         score_count += 1
         score = classic_font.render(f"SCORE: {score_count}", True, (0, 0, 0))
-    
+
     green_current_timer = pygame.time.get_ticks()
     if green_current_timer - green_start_timer > 3000 and picked_green_coin == True:
         picked_green_coin = False
@@ -61,15 +63,18 @@ while running:
         green_coin_y = random.randint(0, 980)
         green_start_timer = green_current_timer
     elif green_current_timer - green_start_timer > 2000 and picked_green_coin == False:
-        green_coin_x = out     
+        green_coin_x = out
     if snake_rect.colliderect(green_coin_rect):
         green_coin_x = out
         score_count += 100
         picked_green_coin = True
         score = classic_font.render(f"SCORE: {score_count}", True, (0, 0, 0))
-    
+
     gold_current_timer = pygame.time.get_ticks()
-    if gold_current_timer - gold_start_timer > random_gold and gold_coin_respawn == True:   
+    if (
+        gold_current_timer - gold_start_timer > random_gold
+        and gold_coin_respawn == True
+    ):
         gold_coin_x = random.randint(0, 1820)
         gold_coin_y = random.randint(0, 980)
         gold_start_timer = gold_current_timer
@@ -82,7 +87,7 @@ while running:
         game_won = True
         gold_coin_respawn = False
         score = classic_font.render(f"SCORE: {score_count}", True, (0, 0, 0))
-    
+
     if game_won == True:
         snake_speed = 0
         win_x = 758
@@ -96,7 +101,7 @@ while running:
     elif game_won == False:
         time = pygame.time.get_ticks() // 1000
         timeos = classic_font.render(f"TIME: {time}", True, (0, 0, 0))
-            
+
     screen.fill("lightgreen")
     screen.blit(red_coin, (red_coin_x, red_coin_y))
     screen.blit(green_coin, (green_coin_x, green_coin_y))
@@ -106,7 +111,7 @@ while running:
     screen.blit(timeos, (120, 20))
     screen.blit(win, (win_x, win_y))
     screen.blit(leave, (leave_x, leave_y))
-    
+
     pygame.display.flip()
     clock.tick(60)
 
